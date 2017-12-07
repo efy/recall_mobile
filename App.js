@@ -1,16 +1,11 @@
 import React from 'react';
-import {TabNavigator} from 'react-navigation'
-import LibraryScreen from './LibraryScreen'
-import AccountScreen from './AccountScreen'
+import LoginScreen from './LoginScreen'
 
-export default App = TabNavigator({
-  Home: { screen: LibraryScreen },
-  Account: { screen: AccountScreen }
-}, {
-  tabBarPosition: 'bottom',
-  animationEnabled: true,
-  tabBarOptions: {
-    activeTintColor: '#000'
+export default class App extends React.Component {
+  render() {
+    return (
+      <LoginScreen/>
+    )
   }
-})
+}
 
