@@ -5,11 +5,11 @@ import SearchBox from './SearchBox'
 
 const login = (server, username, password) => {
   return new Promise((resolve, reject) => {
+    let auth_token = btoa(username + ":" + password)
     fetch(server + "/api/auth", {
       method: "post",
       headers: new Headers({
-        'Username': username,
-        'Password': password
+        'Authorization': 'Basic ' + auth_token
       })
     }).then((res) => {
       return res.test()
