@@ -1,10 +1,44 @@
 import React, { Component } from 'react';
-import { TextInput, Text, StatusBar, StyleSheet, Button, View } from 'react-native';
+import { Alert, TextInput, Text, StatusBar, StyleSheet, Button, View } from 'react-native';
 import LinkList from './LinkList'
 import SearchBox from './SearchBox'
 
+const login = (server, username, password) => {
+  return new Promise((resolve, reject) => {
+    fetch(server + "/api/auth", {
+      method: "post",
+      headers: new Headers({
+        'Username': username,
+        'Password': password
+      })
+    }).then((res) => {
+      return res.test()
+    }).then((token) => {
+      resolve(token)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+
 export default class LoginScreen extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      server: '',
+      username: '',
+      password: ''
+    }
+  }
+
   auth() {
+    let server = this.state.server
+    let username = this.state.username
+    let password = this.state.password
+
+    login(server, username, password).then((token) => {Alert.alert("Success") }).catch((err) => { Alert.alert("Failed") })
   }
 
   render() {
@@ -18,18 +52,18 @@ export default class LoginScreen extends Component {
           <Text style={styles.bigheader}>Recall</Text>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Server Address</Text>
-            <TextInput style={styles.input}/>
+            <TextInput onChangeText={(text) => { this.setState({server: text}) }} style={styles.input}/>
           </View>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Username</Text>
-            <TextInput style={styles.input}/>
+            <TextInput onChangeText={(text) => { this.setState({username: text}) }} style={styles.input}/>
           </View>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
-            <TextInput secureTextEntry={true} style={styles.input}/>
+            <TextInput onChangeText={(text) => { this.setState({password: text}) }} secureTextEntry={true} style={styles.input}/>
           </View>
           <View style={styles.buttonContainer}>
-            <Button color="white" title="Login" onPress={this.auth}/>
+            <Button color="white" title="Login" onPress={(e) => this.auth(e) }/>
           </View>
         </View>
       </View>
