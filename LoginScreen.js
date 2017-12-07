@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, TextInput, Text, StatusBar, StyleSheet, Button, View } from 'react-native';
+import { KeyboardAvoidingView, Alert, TextInput, Text, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import LinkList from './LinkList'
 import SearchBox from './SearchBox'
 
@@ -43,30 +43,48 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <StatusBar
           barStyle="light-content"
         />
 
         <View style={styles.centerContainer}>
-          <Text style={styles.bigheader}>Recall</Text>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Server Address</Text>
-            <TextInput onChangeText={(text) => { this.setState({server: text}) }} style={styles.input}/>
-          </View>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Username</Text>
-            <TextInput onChangeText={(text) => { this.setState({username: text}) }} style={styles.input}/>
-          </View>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput onChangeText={(text) => { this.setState({password: text}) }} secureTextEntry={true} style={styles.input}/>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button color="white" title="Login" onPress={(e) => this.auth(e) }/>
-          </View>
+          <TextInput
+            placeholder="Server address"
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="next"
+            onChangeText={(text) => { this.setState({server: text}) }} 
+            onSubmitEditing={() => this.usernameInput.focus()}
+            keyboardType="url"
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+          />
+          <TextInput 
+            placeholder="Username"
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKetType="next"
+            onChangeText={(text) => { this.setState({username: text}) }} 
+            onSubmitEditing={() => this.passwordInput.focus()}
+            ref={(input) => this.usernameInput = input}
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Password"
+            placeholderTextColor="rgba(255,255,255,0.7)"
+            returnKeyType="go"
+            onChangeText={(text) => { this.setState({password: text}) }} 
+            ref={(input) => this.passwordInput = input}
+            secureTextEntry={true} 
+            style={styles.input}
+          />
+          <TouchableOpacity style={styles.buttonContainer} onPress={(e) => this.auth(e)}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -86,24 +104,23 @@ const styles = StyleSheet.create({
     fontSize: 48,
     marginBottom: 48
   },
-  label: {
-    color: 'white',
-    fontSize: 18
-  },
   input: {
     height: 40,
-    marginTop: 5,
-    marginBottom: 5,
-    paddingLeft: 5,
+    marginBottom: 14,
+    paddingLeft: 10,
+    fontSize: 16,
     color: 'white',
-    borderWidth: .5,
-    borderColor: "#34495e"
-  },
-  inputGroup: {
-    marginBottom: 10
+    backgroundColor: 'rgba(0,0,0,0.2)'
   },
   buttonContainer: {
     backgroundColor: "#34495e",
-    padding: 5
+    height: 40,
+    justifyContent: 'space-around'
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '700'
   }
-});
+})
