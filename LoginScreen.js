@@ -12,7 +12,7 @@ const login = (server, username, password) => {
         'Authorization': 'Basic ' + auth_token
       })
     }).then((res) => {
-      return res.test()
+      return res.text()
     }).then((token) => {
       resolve(token)
     }).catch((err) => {
@@ -38,7 +38,7 @@ export default class LoginScreen extends Component {
     let username = this.state.username
     let password = this.state.password
 
-    login(server, username, password).then((token) => {Alert.alert("Success") }).catch((err) => { Alert.alert("Failed") })
+    login(server, username, password).then((token) => { Alert.alert("Success") }).catch((err) => { Alert.alert("Failed") })
   }
 
   render() {
@@ -63,8 +63,8 @@ export default class LoginScreen extends Component {
           <TextInput 
             placeholder="Username"
             placeholderTextColor="rgba(255,255,255,0.7)"
-            returnKetType="next"
-            onChangeText={(text) => { this.setState({username: text}) }} 
+            returnKeyType="next"
+            onChangeText={(text) => { this.setState({username: text}) }}
             onSubmitEditing={() => this.passwordInput.focus()}
             ref={(input) => this.usernameInput = input}
             autoCapitalize="none"
@@ -75,7 +75,7 @@ export default class LoginScreen extends Component {
             placeholder="Password"
             placeholderTextColor="rgba(255,255,255,0.7)"
             returnKeyType="go"
-            onChangeText={(text) => { this.setState({password: text}) }} 
+            onChangeText={(text) => { this.setState({password: text}) }}
             ref={(input) => this.passwordInput = input}
             secureTextEntry={true} 
             style={styles.input}
