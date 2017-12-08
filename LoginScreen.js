@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, Alert, TextInput, Text, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { AsyncStorage, KeyboardAvoidingView, Alert, TextInput, Text, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import LinkList from './LinkList'
 import SearchBox from './SearchBox'
 
@@ -12,6 +12,12 @@ const login = (server, username, password) => {
         'Authorization': 'Basic ' + auth_token
       })
     }).then((res) => {
+      if (res.status != 200) {
+        res.text().then((text) => {
+          let err = new Error(text)
+          reject(err)
+        })
+      }
       return res.text()
     }).then((token) => {
       resolve(token)
@@ -21,16 +27,38 @@ const login = (server, username, password) => {
   })
 }
 
+const TOKEN_KEY = "auth"
+const SERVER_KEY = "server"
+const USER_KEY = "username"
+
 
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
+    let self = this
+
+    self.state = {
       server: '',
       username: '',
       password: ''
     }
+  }
+
+  componentDidMount() {
+    let self = this
+
+    AsyncStorage.getItem(SERVER_KEY).then((val) => {
+      if (val) {
+        self.setState({server: val})
+      }
+    })
+
+    AsyncStorage.getItem(USER_KEY).then((val) => {
+      if (val) {
+        self.setState({username: val})
+      }
+    })
   }
 
   auth() {
@@ -38,7 +66,16 @@ export default class LoginScreen extends Component {
     let username = this.state.username
     let password = this.state.password
 
-    login(server, username, password).then((token) => { Alert.alert("Success") }).catch((err) => { Alert.alert("Failed") })
+    login(server, username, password).then((token) => { 
+      AsyncStorage.setItem(TOKEN_KEY, token)
+      AsyncStorage.setItem(SERVER_KEY, server)
+      AsyncStorage.setItem(USER_KEY, username)
+
+      // Navigate to logged in section
+    }).catch((err) => {
+      console.log(err)
+      Alert.alert("Authentication failed please check your credentials and try again")
+    })
   }
 
   render() {
@@ -53,6 +90,7 @@ export default class LoginScreen extends Component {
             placeholder="Server address"
             placeholderTextColor="rgba(255,255,255,0.7)"
             returnKeyType="next"
+            value={this.state.server}
             onChangeText={(text) => { this.setState({server: text}) }} 
             onSubmitEditing={() => this.usernameInput.focus()}
             keyboardType="url"
@@ -64,6 +102,7 @@ export default class LoginScreen extends Component {
             placeholder="Username"
             placeholderTextColor="rgba(255,255,255,0.7)"
             returnKeyType="next"
+            value={this.state.username}
             onChangeText={(text) => { this.setState({username: text}) }}
             onSubmitEditing={() => this.passwordInput.focus()}
             ref={(input) => this.usernameInput = input}
