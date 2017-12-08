@@ -7,11 +7,11 @@ export default class LinkItem extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.iconContainer }>
-          <Image source={{uri: "https://cdn.css-tricks.com/apple-touch-icon.png"}} style={{width:16, height: 16, backgroundColor: "#ccc"}} />
+          <Image source={{uri: this.props.icon}} style={{width:16, height: 16}} />
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.title}>{this.props.title}</Text>
-          <Text style={styles.url}>{this.props.url}</Text>
+          <Text numberOfLines={1} style={styles.title}>{this.props.title}</Text>
+          <Text numberOfLines={1} style={styles.url}>{this.props.url}</Text>
         </View>
       </View>
     )
@@ -20,21 +20,25 @@ export default class LinkItem extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 6,
+    paddingBottom: 6,
     borderWidth: 0.5,
     borderColor: "#eaeaea",
-    padding: 10,
     flex: 1,
     flexDirection: "row"
   },
   iconContainer: {
-    padding: 10,
+    padding: 5,
+    justifyContent: 'space-around'
   },
   infoContainer: {
+    padding: 5,
+    flex: 1
   },
   title: {
     fontWeight: "bold",
   },
   url: {
-    color: "#444"
+    color: "#888"
   }
 })

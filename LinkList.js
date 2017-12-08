@@ -13,7 +13,7 @@ export default class LinkList extends Component {
       <FlatList
         data={this.props.links}
         keyExtractor={this._keyExtractor}
-        renderItem={({item}) => <LinkItem title={item.title} url={item.url}></LinkItem>}
+        renderItem={({item}) => <LinkItem title={item.title} url={item.url} icon={item.icon}></LinkItem>}
       />
     )
   }
