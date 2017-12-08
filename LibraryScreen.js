@@ -5,14 +5,9 @@ import SearchBox from './SearchBox'
 import StatusBar from './StatusBar'
 
 export default class LibraryScreen extends Component {
-  static navigationOptions = {
-    tabBarLabel: "Library"
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar/>
         <SearchBox/>
         <LinkList/>
       </View>
