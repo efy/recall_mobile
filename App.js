@@ -30,7 +30,7 @@ export default class App extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let self = this
     AsyncStorage.getItem("auth").then((token) => {
       let valid = isValidToken(token)

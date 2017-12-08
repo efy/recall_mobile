@@ -7,15 +7,13 @@ export default Tabs = TabNavigator({
   Library: {
     screen: LibraryScreen,
     navigationOptions: {
-      title: 'Library',
-      headerTitle: 'Library'
+      title: 'Library'
     }
   },
   Account: {
     screen: AccountScreen,
     navigationOptions: {
-      title: 'Account',
-      headerTitle: 'Account Settings'
+      title: 'Account'
     }
   }
 }, {

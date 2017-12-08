@@ -4,24 +4,16 @@ import { FlatList, StyleSheet, Text } from 'react-native'
 import LinkItem from './LinkItem'
 
 export default class LinkList extends Component {
-  list() {
-    let d = []
-    for(let i = 0; i <= 20; i++) {
-      var link = {
-        key: "Link " + i,
-        url: "http://link" + i + ".com",
-        icon: ""
-      }
-      d.push(link)
-    }
-    return d
+  _keyExtractor(item, index) {
+    return item.id
   }
 
   render() {
     return (
       <FlatList
-        data={this.list()}
-        renderItem={({item}) => <LinkItem title={item.key} url={item.url} icon={item.icon}></LinkItem>}
+        data={this.props.links}
+        keyExtractor={this._keyExtractor}
+        renderItem={({item}) => <LinkItem title={item.title} url={item.url}></LinkItem>}
       />
     )
   }
