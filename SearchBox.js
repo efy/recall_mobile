@@ -7,8 +7,8 @@ export default class LinkList extends Component {
     return (
       <View style={styles.container}>
         <TextInput
-          style={{ height: 40 }}
-          placeholder="Search your library"
+          style={styles.input}
+          placeholder="Search"
           onChangeText={(text) => this.setState({text})}
         />
       </View>
@@ -21,7 +21,11 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 5,
     paddingBottom: 5,
-    borderWidth: 0.5,
-    borderColor: "#eaeaea"
+  },
+  input: {
+    height: 35,
+    backgroundColor: "#eaeaea",
+    borderRadius: 10,
+    padding: 10
   }
 })
